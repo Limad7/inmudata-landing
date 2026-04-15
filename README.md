@@ -14,8 +14,8 @@ Inmudata es un software de gestión integral para propietarios y administradores
 
 | Plan | Precio | Ahorro |
 |---|---|---|
-| Mensual | $25 USD/mes | — |
-| Anual | $240 USD/año | $60/año |
+| Mensual | €25/mes | — |
+| Anual | €250/año | €20/año |
 
 ## 🛠️ Stack Técnico
 
