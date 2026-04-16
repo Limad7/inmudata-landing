@@ -31,8 +31,6 @@ nav .links a:hover{color:#fff}
 .btn-primary:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
 .btn-outline{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff}
 .btn-outline:hover{border-color:#fff}
-.btn-dark{background:var(--blue-dark);color:#fff}
-.btn-dark:hover{background:var(--blue)}
 
 /* HERO */
 .hero{min-height:100vh;background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 50%,#1e40af 100%);display:flex;align-items:center;padding:120px 24px 80px}
@@ -60,6 +58,16 @@ section .inner{max-width:1200px;margin:auto}
 .feature-card h3{font-size:1.15rem;margin-bottom:8px}
 .feature-card p{color:var(--gray);font-size:.95rem}
 
+/* DOCUMENT MANAGEMENT HIGHLIGHT */
+.doc-highlight{background:linear-gradient(135deg,#1e3a5f,#1e40af);border-radius:20px;padding:56px 40px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:48px}
+.doc-highlight .doc-text h3{font-size:1.8rem;color:#fff;margin-bottom:16px}
+.doc-highlight .doc-text p{color:rgba(255,255,255,.85);font-size:1.05rem;margin-bottom:20px}
+.doc-highlight .doc-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.doc-highlight .doc-item{background:rgba(255,255,255,.12);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;color:#fff;font-size:.95rem;backdrop-filter:blur(4px)}
+.doc-highlight .doc-item .doc-icon{font-size:1.5rem}
+.doc-highlight .doc-visual{display:flex;flex-direction:column;align-items:center;gap:16px}
+.doc-highlight .doc-badge{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-weight:700;padding:12px 28px;border-radius:50px;font-size:1.1rem;box-shadow:0 8px 24px rgba(245,158,11,.4)}
+
 /* MODULE SHOWCASE */
 .showcase{background:#fff}
 .showcase-row{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:80px}
@@ -82,7 +90,6 @@ section .inner{max-width:1200px;margin:auto}
 
 /* FOOTER */
 footer{background:var(--blue-dark);color:rgba(255,255,255,.6);padding:40px 24px;text-align:center;font-size:.9rem}
-footer a{color:rgba(255,255,255,.8)}
 
 /* RESPONSIVE */
 @media(max-width:768px){
@@ -93,15 +100,18 @@ footer a{color:rgba(255,255,255,.8)}
   .showcase-row,.showcase-row.reverse{grid-template-columns:1fr;direction:ltr}
   .showcase-text{text-align:center}
   .showcase-text ul{display:inline-block;text-align:left}
+  .doc-highlight{grid-template-columns:1fr;padding:36px 24px}
+  .doc-highlight .doc-list{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="inner">
     <a href="#" class="logo">
-      <img src="LOGO-INMUDATA.png" alt="Inmudata">
+      <img src="2026-04-16_inmudata-logo.png" alt="Inmudata">
       <span>Inmudata</span>
     </a>
     <div class="links">
@@ -114,6 +124,7 @@ footer a{color:rgba(255,255,255,.8)}
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div class="inner">
     <div>
@@ -125,11 +136,12 @@ footer a{color:rgba(255,255,255,.8)}
       </div>
     </div>
     <div class="mockup">
-      <img src="DASHBOARD.png" alt="Dashboard Inmudata">
+      <img src="2026-04-16_inmudata-dashboard.png" alt="Dashboard Inmudata">
     </div>
   </div>
 </section>
 
+<!-- FEATURES -->
 <section class="features" id="features">
   <div class="inner">
     <div class="section-title">
@@ -152,30 +164,46 @@ footer a{color:rgba(255,255,255,.8)}
         <h3>Transacciones</h3>
         <p>Registro detallado de pagos, cobros y movimientos financieros al día.</p>
       </div>
-      <div class="feature-card" style="border:2px solid #3b82f6;background:linear-gradient(135deg,#eff6ff,#f0f4ff)">
-        <div class="icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">📎</div>
-        <h3>Gestión Documental</h3>
-        <p><strong style="color:#1e293b">Adjunta documentos anexos</strong> a cualquier registro: contratos, recibos, facturas, presupuestos y más. Todo centralizado y accesible.</p>
-      </div>
       <div class="feature-card">
         <div class="icon">📊</div>
         <h3>Analítica Financiera</h3>
         <p>Reportes avanzados e indicadores clave para tomar decisiones con datos reales.</p>
       </div>
       <div class="feature-card">
+        <div class="icon">🏢</div>
+        <h3>Propietarios y Sociedades</h3>
+        <p>Gestiona la información de propietarios, sociedades y sus participaciones.</p>
+      </div>
+      <div class="feature-card">
         <div class="icon">🔔</div>
         <h3>Alertas y Vencimientos</h3>
         <p>Notificaciones automáticas de contratos por vencer, pagos pendientes e incidencias.</p>
       </div>
-      <div class="feature-card">
-        <div class="icon">⚡</div>
-        <h3>Rendimiento y Escalabilidad</h3>
-        <p>Plataforma rápida y escalable, preparada para crecer con tu negocio.</p>
+    </div>
+
+    <!-- GESTIÓN DOCUMENTAL DESTACADA -->
+    <div class="doc-highlight">
+      <div class="doc-text">
+        <div class="doc-badge">📎 Gestión Documental</div>
+        <h3>Adjunta documentos a cualquier registro</h3>
+        <p>Contratos, recibos, facturas, presupuestos, escrituras... Todo centralizado y accesible desde cada inmueble, contrato o transacción.</p>
+        <div class="doc-list">
+          <div class="doc-item"><span class="doc-icon">📄</span> Contratos</div>
+          <div class="doc-item"><span class="doc-icon">🧾</span> Recibos</div>
+          <div class="doc-item"><span class="doc-icon">📑</span> Facturas</div>
+          <div class="doc-item"><span class="doc-icon">📝</span> Presupuestos</div>
+          <div class="doc-item"><span class="doc-icon">📋</span> Escrituras</div>
+          <div class="doc-item"><span class="doc-icon">📎</span> Y más...</div>
+        </div>
+      </div>
+      <div class="doc-visual">
+        <img src="2026-04-16_inmudata-logo.png" alt="Inmudata" style="width:180px;opacity:.9">
       </div>
     </div>
   </div>
 </section>
 
+<!-- DASHBOARD SHOWCASE -->
 <section class="showcase" id="dashboard">
   <div class="inner">
     <div class="section-title">
@@ -183,11 +211,12 @@ footer a{color:rgba(255,255,255,.8)}
       <p>Visualiza de un vistazo todo lo importante: vencimientos, incidencias, disponibilidad y métricas clave.</p>
     </div>
     <div style="max-width:960px;margin:auto;border-radius:16px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.15);border:1px solid #e2e8f0">
-      <img src="DASHBOARD.png" alt="Dashboard Inmudata" style="width:100%">
+      <img src="2026-04-16_inmudata-dashboard.png" alt="Dashboard Inmudata" style="width:100%">
     </div>
   </div>
 </section>
 
+<!-- MÓDULOS -->
 <section class="showcase" id="modulos" style="background:var(--gray-light)">
   <div class="inner">
     <div class="section-title">
@@ -195,9 +224,10 @@ footer a{color:rgba(255,255,255,.8)}
       <p>Cada área de tu negocio tiene su espacio dedicado con herramientas específicas.</p>
     </div>
 
+    <!-- INMUEBLES -->
     <div class="showcase-row">
       <div class="showcase-text">
-        <h3>Gestión de Inmuebles</h3>
+        <h3>🏠 Gestión de Inmuebles</h3>
         <p>Organiza todo tu portfolio inmobiliario con información detallada y siempre actualizada.</p>
         <ul>
           <li>Fichas completas de cada propiedad</li>
@@ -207,29 +237,48 @@ footer a{color:rgba(255,255,255,.8)}
         </ul>
       </div>
       <div class="showcase-img">
-        <img src="PROPERTIES.png" alt="Gestión de Inmuebles">
+        <img src="2026-04-16_inmudata-properties.png" alt="Gestión de Inmuebles">
       </div>
     </div>
 
+    <!-- CONTRATOS -->
     <div class="showcase-row reverse">
       <div class="showcase-text">
-        <h3>Gestión de Contratos</h3>
+        <h3>📋 Gestión de Contratos</h3>
         <p>Controla todos tus contratos con alertas automáticas y seguimiento de estado.</p>
         <ul>
           <li>Contratos de arrendamiento y compra-venta</li>
           <li>Alertas de vencimiento automáticas</li>
           <li>Historial completo de cambios</li>
-          <li>Generación de documentos</li>
+          <li>Generación y adjuntado de documentos</li>
         </ul>
       </div>
       <div class="showcase-img">
-        <img src="CONTRACTS.png" alt="Gestión de Contratos">
+        <img src="2026-04-16_inmudata-contracts.png" alt="Gestión de Contratos">
       </div>
     </div>
 
+    <!-- TRANSACCIONES -->
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h3>💳 Transacciones</h3>
+        <p>Control total de ingresos y gastos. Cada movimiento registrado y categorizado.</p>
+        <ul>
+          <li>Registro de cobros y pagos</li>
+          <li>Categorización automática</li>
+          <li>Vinculación con contratos e inmuebles</li>
+          <li>Adjuntar justificantes y recibos</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="2026-04-16_inmudata-transactions.png" alt="Transacciones">
+      </div>
+    </div>
+
+    <!-- FINANZAS -->
     <div class="showcase-row reverse">
       <div class="showcase-text">
-        <h3>Analítica Financiera PRO</h3>
+        <h3>📊 Analítica Financiera PRO</h3>
         <p>Datos transformados en decisiones. Métricas avanzadas para optimizar tu rentabilidad.</p>
         <ul>
           <li>Reportes de ingresos y gastos</li>
@@ -239,12 +288,30 @@ footer a{color:rgba(255,255,255,.8)}
         </ul>
       </div>
       <div class="showcase-img">
-        <img src="FINANCIALS.png" alt="Analítica Financiera">
+        <img src="2026-04-16_inmudata-financials.png" alt="Analítica Financiera">
+      </div>
+    </div>
+
+    <!-- PROPIETARIOS -->
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h3>🏢 Propietarios y Sociedades</h3>
+        <p>Gestiona toda la información de propietarios, sociedades y sus relaciones con inmuebles.</p>
+        <ul>
+          <li>Fichas de sociedades y propietarios</li>
+          <li>Relación con inmuebles y contratos</li>
+          <li>Historial de participaciones</li>
+          <li>Documentación legal asociada</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="2026-04-16_inmudata-companies.png" alt="Propietarios y Sociedades">
       </div>
     </div>
   </div>
 </section>
 
+<!-- CTA -->
 <section class="cta" id="contacto">
   <h2>¿Listo para transformar tu gestión inmobiliaria?</h2>
   <p>Solicita una demo personalizada y descubre cómo Inmudata puede optimizar tu negocio.</p>
