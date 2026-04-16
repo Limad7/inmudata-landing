@@ -1,1624 +1,270 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inmudata — Gestión Inmobiliaria Inteligente</title>
-    <meta name="description" content="Gestiona tus inmuebles, ingresos, gastos e incidencias en un solo lugar. El software definitivo para administradores de fincas y propietarios.">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- AOS Animations -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inmudata — Gestión Inmobiliaria Inteligente</title>
+<meta name="description" content="Plataforma integral de gestión inmobiliaria. Controla inmuebles, contratos, transacciones y finanzas desde un solo lugar.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a3a6b;--blue-light:#2563eb;--blue-dark:#0f1d36;
+  --accent:#3b82f6;--gray:#64748b;--gray-light:#f1f5f9;
+  --white:#fff;--shadow:0 4px 24px rgba(0,0,0,.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1e293b;line-height:1.6;overflow-x:hidden;background:var(--white)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a5f',
-                            950: '#0f1d30',
-                        },
-                        mint: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(15,29,54,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+nav .inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
+nav .logo{display:flex;align-items:center;gap:12px}
+nav .logo img{height:36px}
+nav .logo span{color:#fff;font-size:1.15rem;font-weight:700;letter-spacing:-.3px}
+nav .links{display:flex;gap:28px;align-items:center}
+nav .links a{color:rgba(255,255,255,.8);font-size:.9rem;font-weight:500;transition:color .2s}
+nav .links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .25s;cursor:pointer;border:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff}
+.btn-outline:hover{border-color:#fff}
+.btn-dark{background:var(--blue-dark);color:#fff}
+.btn-dark:hover{background:var(--blue)}
 
-    <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f1d30; }
-        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 50%,#1e40af 100%);display:flex;align-items:center;padding:120px 24px 80px}
+.hero .inner{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);color:#fff;line-height:1.15;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(90deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:rgba(255,255,255,.8);font-size:1.15rem;margin-bottom:32px;max-width:520px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero .mockup{border-radius:16px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1)}
+.hero .mockup img{width:100%}
 
-        /* Hero gradient animation */
-        .hero-gradient {
-            background: linear-gradient(135deg, #0f1d30 0%, #1e3a5f 25%, #1d4ed8 50%, #1e3a5f 75%, #0f1d30 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+/* SECTIONS */
+section{padding:80px 24px}
+section .inner{max-width:1200px;margin:auto}
+.section-title{text-align:center;margin-bottom:56px}
+.section-title h2{font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--blue-dark);margin-bottom:12px}
+.section-title p{color:var(--gray);font-size:1.05rem;max-width:560px;margin:auto}
 
-        /* Floating particles */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float linear infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
-        }
+/* FEATURES */
+.features{background:var(--gray-light)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+.feature-card{background:#fff;border-radius:16px;padding:32px 28px;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.15)}
+.feature-card .icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6366f1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:1.4rem;color:#fff}
+.feature-card h3{font-size:1.15rem;margin-bottom:8px}
+.feature-card p{color:var(--gray);font-size:.95rem}
 
-        /* Glow effects */
-        .glow-blue { box-shadow: 0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(59, 130, 246, 0.1); }
-        .glow-mint { box-shadow: 0 0 40px rgba(16, 185, 129, 0.3), 0 0 80px rgba(16, 185, 129, 0.1); }
-        .text-glow { text-shadow: 0 0 40px rgba(59, 130, 246, 0.5); }
+/* MODULE SHOWCASE */
+.showcase{background:#fff}
+.showcase-row{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-bottom:80px}
+.showcase-row:last-child{margin-bottom:0}
+.showcase-row.reverse{direction:rtl}
+.showcase-row.reverse>*{direction:ltr}
+.showcase-text h3{font-size:1.6rem;color:var(--blue-dark);margin-bottom:14px}
+.showcase-text p{color:var(--gray);font-size:1.02rem;margin-bottom:20px}
+.showcase-text ul{list-style:none;padding:0}
+.showcase-text li{padding:6px 0;color:#475569;font-size:.95rem;display:flex;align-items:center;gap:8px}
+.showcase-text li::before{content:"✓";color:var(--accent);font-weight:700;font-size:1.1rem}
+.showcase-img{border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid #e2e8f0}
+.showcase-img img{width:100%}
 
-        /* Glass effect */
-        .glass {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
-        }
-        .glass-light {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .glass-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .glass-card:hover {
-            transform: translateY(-4px);
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.6);
-        }
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--blue-dark),#1e40af);text-align:center;padding:100px 24px}
+.cta h2{color:#fff;font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:16px}
+.cta p{color:rgba(255,255,255,.8);font-size:1.1rem;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+.cta .btn-primary{font-size:1.05rem;padding:14px 36px}
 
-        /* Mockup styles */
-        .mockup-window {
-            background: #0f172a;
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .mockup-titlebar {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 12px 16px;
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-        }
-        .mockup-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        .dot-red { background: #ef4444; }
-        .dot-yellow { background: #f59e0b; }
-        .dot-green { background: #22c55e; }
+/* FOOTER */
+footer{background:var(--blue-dark);color:rgba(255,255,255,.6);padding:40px 24px;text-align:center;font-size:.9rem}
+footer a{color:rgba(255,255,255,.8)}
 
-        /* Chart bars animation */
-        .chart-bar {
-            transform-origin: bottom;
-            animation: growUp 1.5s ease-out forwards;
-        }
-        @keyframes growUp {
-            from { transform: scaleY(0); }
-            to { transform: scaleY(1); }
-        }
-
-        /* Pulse ring */
-        .pulse-ring {
-            animation: pulseRing 2s ease-out infinite;
-        }
-        @keyframes pulseRing {
-            0% { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        /* Smooth counter */
-        .counter-value {
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* Card hover lift */
-        .card-lift {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-lift:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -5px rgba(0,0,0,0.6);
-        }
-
-        /* Grid pattern background */
-        .grid-pattern {
-            background-image: 
-                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        /* Pricing popular badge shimmer */
-        .shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-        .shimmer::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmerMove 3s infinite;
-        }
-        @keyframes shimmerMove {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* Navigation blur */
-        .nav-blur {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        /* Status badges */
-        .badge-open { background: #fef3c7; color: #92400e; }
-        .badge-progress { background: #dbeafe; color: #1e40af; }
-        .badge-resolved { background: #d1fae5; color: #065f46; }
-
-        /* Focus visible */
-        :focus-visible {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Smooth section transitions */
-        section {
-            position: relative;
-        }
-
-        /* Testimonial card gradient border */
-        .testimonial-border {
-            position: relative;
-        }
-        .testimonial-border::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            padding: 1px;
-            background: linear-gradient(135deg, #3b82f6, #10b981, #3b82f6);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-        }
-
-        /* Number ticker */
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav .links{display:none}
+  .hero .inner{grid-template-columns:1fr;text-align:center}
+  .hero p{margin-left:auto;margin-right:auto}
+  .hero .ctas{justify-content:center}
+  .showcase-row,.showcase-row.reverse{grid-template-columns:1fr;direction:ltr}
+  .showcase-text{text-align:center}
+  .showcase-text ul{display:inline-block;text-align:left}
+}
+</style>
 </head>
-
-<body class="bg-brand-950 text-white font-sans antialiased overflow-x-hidden">
-
-    <!-- ========== NAVBAR ========== -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 lg:h-20">
-                <!-- Logo -->
-                <a href="#" class="flex items-center gap-2 group">
-                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-mint-500 flex items-center justify-center font-bold text-white text-lg group-hover:scale-110 transition-transform">
-                        I
-                    </div>
-                    <span class="text-xl font-bold text-white">Inmudata</span>
-                </a>
-
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#features" class="text-sm text-slate-300 hover:text-white transition-colors">Funcionalidades</a>
-                    <a href="#demo" class="text-sm text-slate-300 hover:text-white transition-colors">Demo</a>
-                    <a href="#pricing" class="text-sm text-slate-300 hover:text-white transition-colors">Precios</a>
-                    <a href="#testimonials" class="text-sm text-slate-300 hover:text-white transition-colors">Opiniones</a>
-                </div>
-
-                <!-- CTA -->
-                <div class="hidden md:flex items-center gap-4">
-                    <a href="#" class="text-sm text-slate-300 hover:text-white transition-colors">Iniciar sesión</a>
-                    <a href="#" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-brand-600/25">
-                        Prueba gratis
-                    </a>
-                </div>
-
-                <!-- Mobile menu button -->
-                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-300 hover:text-white" aria-label="Abrir menú">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden glass border-t border-white/10">
-            <div class="px-4 py-4 space-y-3">
-                <a href="#features" class="block text-sm text-slate-300 hover:text-white py-2">Funcionalidades</a>
-                <a href="#demo" class="block text-sm text-slate-300 hover:text-white py-2">Demo</a>
-                <a href="#pricing" class="block text-sm text-slate-300 hover:text-white py-2">Precios</a>
-                <a href="#testimonials" class="block text-sm text-slate-300 hover:text-white py-2">Opiniones</a>
-                <div class="pt-3 border-t border-white/10 flex flex-col gap-3">
-                    <a href="#" class="text-sm text-slate-300 hover:text-white py-2">Iniciar sesión</a>
-                    <a href="#" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold rounded-lg text-center transition-all">
-                        Prueba gratis
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
-    <!-- ========== HERO ========== -->
-    <section class="hero-gradient relative min-h-screen flex items-center overflow-hidden">
-        <!-- Floating particles -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none" id="particles"></div>
-        
-        <!-- Grid pattern overlay -->
-        <div class="absolute inset-0 grid-pattern opacity-50"></div>
-
-        <!-- Gradient orbs -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-mint-500/10 rounded-full blur-3xl"></div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                <!-- Left: Content -->
-                <div data-aos="fade-right" data-aos-duration="1000">
-                    <!-- Badge -->
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-brand-300 mb-8">
-                        <span class="w-2 h-2 bg-mint-400 rounded-full animate-pulse"></span>
-                       Nuevo — Dashboard renovado 2025
-                    </div>
-
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight mb-6">
-                        Tu patrimonio inmobiliario,
-                        <span class="bg-gradient-to-r from-brand-400 via-mint-400 to-brand-400 bg-clip-text text-transparent bg-size-200 animate-gradient-x">
-                            bajo control
-                        </span>
-                    </h1>
-
-                    <p class="text-lg sm:text-xl text-slate-300 leading-relaxed mb-10 max-w-xl">
-                        Gestiona inmuebles, controla ingresos y gastos, resuelve incidencias. Todo en una plataforma diseñada para que tu gestión sea impecable.
-                    </p>
-
-                    <!-- CTAs -->
-                    <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                        <a href="#" class="group px-8 py-4 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-semibold rounded-xl transition-all hover:shadow-2xl hover:shadow-brand-600/25 flex items-center justify-center gap-2">
-                            Empieza gratis
-                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                        </a>
-                        <a href="#demo" class="px-8 py-4 glass hover:bg-white/10 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2">
-                            <i data-lucide="play-circle" class="w-5 h-5"></i>
-                            Ver demo
-                        </a>
-                    </div>
-
-                    <!-- Social proof -->
-                    <div class="flex items-center gap-6 text-sm text-slate-400">
-                        <div class="flex -space-x-2">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-brand-950 flex items-center justify-center text-xs font-bold">M</div>
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-brand-950 flex items-center justify-center text-xs font-bold">C</div>
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-brand-950 flex items-center justify-center text-xs font-bold">A</div>
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-brand-950 flex items-center justify-center text-xs font-bold">J</div>
-                            <div class="w-8 h-8 rounded-full bg-brand-800 border-2 border-brand-950 flex items-center justify-center text-xs font-bold text-slate-300">+500</div>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1 text-yellow-400 mb-0.5">
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
-                            </div>
-                            <span>+500 gestores confían en Inmudata</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Hero Mockup -->
-                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200" class="relative">
-                    <!-- Main dashboard mockup -->
-                    <div class="mockup-window glow-blue transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
-                        <div class="mockup-titlebar">
-                            <div class="mockup-dot dot-red"></div>
-                            <div class="mockup-dot dot-yellow"></div>
-                            <div class="mockup-dot dot-green"></div>
-                            <span class="text-xs text-slate-500 ml-2">Inmudata — Dashboard</span>
-                        </div>
-                        <div class="p-4 space-y-4">
-                            <!-- Stats row -->
-                            <div class="grid grid-cols-3 gap-3">
-                                <div class="bg-slate-800/60 rounded-lg p-3">
-                                    <p class="text-xs text-slate-400">Inmuebles</p>
-                                    <p class="text-xl font-bold text-white">47</p>
-                                    <p class="text-xs text-mint-400 flex items-center gap-1 mt-1">
-                                        <i data-lucide="trending-up" class="w-3 h-3"></i> +3
-                                    </p>
-                                </div>
-                                <div class="bg-slate-800/60 rounded-lg p-3">
-                                    <p class="text-xs text-slate-400">Ingresos</p>
-                                    <p class="text-xl font-bold text-white">$24.8k</p>
-                                    <p class="text-xs text-mint-400 flex items-center gap-1 mt-1">
-                                        <i data-lucide="trending-up" class="w-3 h-3"></i> 12%
-                                    </p>
-                                </div>
-                                <div class="bg-slate-800/60 rounded-lg p-3">
-                                    <p class="text-xs text-slate-400">Incidencias</p>
-                                    <p class="text-xl font-bold text-white">5</p>
-                                    <p class="text-xs text-amber-400 flex items-center gap-1 mt-1">
-                                        <i data-lucide="alert-circle" class="w-3 h-3"></i> 2 abiertas
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <!-- Mini chart -->
-                            <div class="bg-slate-800/60 rounded-lg p-3">
-                                <div class="flex justify-between items-center mb-3">
-                                    <p class="text-xs text-slate-400 font-medium">Ingresos vs Gastos</p>
-                                    <span class="text-xs text-slate-500">Últimos 6 meses</span>
-                                </div>
-                                <div class="flex items-end gap-2 h-20">
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:55%; animation-delay:0.1s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:35%; animation-delay:0.15s"></div>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:65%; animation-delay:0.2s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:40%; animation-delay:0.25s"></div>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:60%; animation-delay:0.3s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:30%; animation-delay:0.35s"></div>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:75%; animation-delay:0.4s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:45%; animation-delay:0.45s"></div>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:70%; animation-delay:0.5s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:38%; animation-delay:0.55s"></div>
-                                    </div>
-                                    <div class="flex-1 flex flex-col items-center gap-1">
-                                        <div class="w-full bg-brand-500/80 rounded-t chart-bar" style="height:90%; animation-delay:0.6s"></div>
-                                        <div class="w-full bg-rose-500/60 rounded-t chart-bar" style="height:42%; animation-delay:0.65s"></div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4 mt-3">
-                                    <span class="flex items-center gap-1 text-xs text-slate-400"><span class="w-2 h-2 bg-brand-500/80 rounded"></span> Ingresos</span>
-                                    <span class="flex items-center gap-1 text-xs text-slate-400"><span class="w-2 h-2 bg-rose-500/60 rounded"></span> Gastos</span>
-                                </div>
-                            </div>
-
-                            <!-- Properties list -->
-                            <div class="bg-slate-800/60 rounded-lg p-3">
-                                <p class="text-xs text-slate-400 font-medium mb-2">Últimos inmuebles</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between py-1.5 border-b border-slate-700/50">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-6 h-6 rounded bg-brand-600/40 flex items-center justify-center"><i data-lucide="building-2" class="w-3 h-3 text-brand-300"></i></div>
-                                            <span class="text-xs text-white">C/ Gran Vía 42, Madrid</span>
-                                        </div>
-                                        <span class="text-xs text-mint-400">$1.200/mes</span>
-                                    </div>
-                                    <div class="flex items-center justify-between py-1.5 border-b border-slate-700/50">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-6 h-6 rounded bg-brand-600/40 flex items-center justify-center"><i data-lucide="home" class="w-3 h-3 text-brand-300"></i></div>
-                                            <span class="text-xs text-white">Av. Diagonal 120, BCN</span>
-                                        </div>
-                                        <span class="text-xs text-mint-400">$980/mes</span>
-                                    </div>
-                                    <div class="flex items-center justify-between py-1.5">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-6 h-6 rounded bg-brand-600/40 flex items-center justify-center"><i data-lucide="building" class="w-3 h-3 text-brand-300"></i></div>
-                                            <span class="text-xs text-white">Pza. Mayor 8, Sevilla</span>
-                                        </div>
-                                        <span class="text-xs text-amber-400">Vacío</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating card: Incidencia -->
-                    <div class="absolute -left-8 bottom-16 hidden lg:block animate-bounce" style="animation-duration:3s">
-                        <div class="glass-card rounded-xl p-3 flex items-center gap-3 shadow-2xl">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
-                                <i data-lucide="wrench" class="w-5 h-5 text-amber-400"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-semibold text-white">Incidencia resuelta</p>
-                                <p class="text-xs text-slate-400">Fontanería — Apto 3B</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Floating card: Ingreso -->
-                    <div class="absolute -right-4 top-8 hidden lg:block animate-bounce" style="animation-duration:4s; animation-delay:1s">
-                        <div class="glass-card rounded-xl p-3 flex items-center gap-3 shadow-2xl">
-                            <div class="w-10 h-10 rounded-lg bg-mint-500/20 flex items-center justify-center">
-                                <i data-lucide="check-circle" class="w-5 h-5 text-mint-400"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-semibold text-white">Pago recibido</p>
-                                <p class="text-xs text-mint-400">+$1.200</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400 animate-bounce">
-            <span class="text-xs">Descubre más</span>
-            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-        </div>
-    </section>
-
-
-    <!-- ========== FEATURES ========== -->
-    <section id="features" class="relative py-24 lg:py-32 bg-brand-950">
-        <div class="absolute inset-0 grid-pattern opacity-30"></div>
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/50 to-transparent"></div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section header -->
-            <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-brand-600/10 text-brand-400 text-sm font-medium mb-4">Funcionalidades</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                    Todo lo que necesitas para
-                    <span class="bg-gradient-to-r from-brand-400 to-mint-400 bg-clip-text text-transparent">gestionar con excelencia</span>
-                </h2>
-                <p class="text-lg text-slate-400">Tres pilares, una plataforma. Simplifica tu operación inmobiliaria de principio a fin.</p>
-            </div>
-
-            <!-- Feature cards -->
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1: Gestión de Inmuebles -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="0">
-                    <div class="glass-card rounded-2xl p-8 h-full">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center mb-6">
-                            <i data-lucide="building-2" class="w-7 h-7 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Gestión de Inmuebles</h3>
-                        <p class="text-slate-400 mb-6 leading-relaxed">Centraliza toda la información de tus propiedades. Datos de inquilinos, contratos, fechas clave y documentación en un solo lugar.</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Ficha completa por propiedad
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Seguimiento de contratos y renovaciones
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Alertas de vencimiento automáticas
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Documentos y fotos asociados
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Feature 2: Ingresos & Gastos -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="100">
-                    <div class="glass-card rounded-2xl p-8 h-full">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-mint-500 to-mint-700 flex items-center justify-center mb-6">
-                            <i data-lucide="bar-chart-3" class="w-7 h-7 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Ingresos & Gastos</h3>
-                        <p class="text-slate-400 mb-6 leading-relaxed">Control total de la salud financiera. Visualiza ingresos, gastos y rentabilidad en tiempo real con gráficas intuitivas.</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Dashboard financiero en tiempo real
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Categorización automática de gastos
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Reportes de rentabilidad por inmueble
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Exportación a Excel / PDF
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Feature 3: Incidencias -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="200">
-                    <div class="glass-card rounded-2xl p-8 h-full">
-                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mb-6">
-                            <i data-lucide="wrench" class="w-7 h-7 text-white"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Incidencias</h3>
-                        <p class="text-slate-400 mb-6 leading-relaxed">Sistema completo de tickets. Recibe, asigna y resuelve incidencias con seguimiento de estado y comunicación integrada.</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Creación y seguimiento de tickets
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Asignación a proveedores
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Estados y prioridades
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Historial completo por inmueble
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== MOCKUP UI DEMO ========== -->
-    <section id="demo" class="relative py-24 lg:py-32 bg-gradient-to-b from-brand-950 via-brand-900/50 to-brand-950 overflow-hidden">
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/50 to-transparent"></div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section header -->
-            <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-mint-500/10 text-mint-400 text-sm font-medium mb-4">Mira cómo funciona</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                    Así se ve Inmudata
-                    <span class="bg-gradient-to-r from-mint-400 to-brand-400 bg-clip-text text-transparent">por dentro</span>
-                </h2>
-                <p class="text-lg text-slate-400">Interfaces diseñadas para que trabajes más rápido, sin curva de aprendizaje.</p>
-            </div>
-
-            <!-- Mockup 1: Dashboard de Inmuebles -->
-            <div class="mb-20" data-aos="fade-up">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-lg bg-brand-600/20 flex items-center justify-center">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5 text-brand-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold">Dashboard de Inmuebles</h3>
-                </div>
-                <div class="mockup-window glow-blue">
-                    <div class="mockup-titlebar">
-                        <div class="mockup-dot dot-red"></div>
-                        <div class="mockup-dot dot-yellow"></div>
-                        <div class="mockup-dot dot-green"></div>
-                        <div class="flex-1 flex items-center justify-between ml-4">
-                            <div class="flex items-center gap-4">
-                                <span class="text-xs font-medium text-slate-300 px-3 py-1 bg-slate-800 rounded-md">Dashboard</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Inmuebles</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Finanzas</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Incidencias</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center gap-2 bg-slate-800 rounded-md px-3 py-1">
-                                    <i data-lucide="search" class="w-3 h-3 text-slate-500"></i>
-                                    <span class="text-xs text-slate-500">Buscar...</span>
-                                </div>
-                                <div class="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center">
-                                    <span class="text-xs font-bold">A</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-slate-900/80">
-                        <!-- Stats bar -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/30">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs text-slate-400">Total Inmuebles</span>
-                                    <i data-lucide="building-2" class="w-4 h-4 text-brand-400"></i>
-                                </div>
-                                <p class="text-2xl font-bold">47</p>
-                                <p class="text-xs text-mint-400 mt-1">↑ 3 nuevos este mes</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/30">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs text-slate-400">Ocupación</span>
-                                    <i data-lucide="percent" class="w-4 h-4 text-mint-400"></i>
-                                </div>
-                                <p class="text-2xl font-bold">89<span class="text-lg">%</span></p>
-                                <p class="text-xs text-mint-400 mt-1">↑ 4% vs mes anterior</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/30">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs text-slate-400">Ingresos Mensuales</span>
-                                    <i data-lucide="dollar-sign" class="w-4 h-4 text-mint-400"></i>
-                                </div>
-                                <p class="text-2xl font-bold">$24.8k</p>
-                                <p class="text-xs text-mint-400 mt-1">↑ 12% vs mes anterior</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-slate-700/30">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs text-slate-400">Incidencias Activas</span>
-                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
-                                </div>
-                                <p class="text-2xl font-bold">5</p>
-                                <p class="text-xs text-amber-400 mt-1">2 urgentes</p>
-                            </div>
-                        </div>
-
-                        <!-- Properties table -->
-                        <div class="bg-slate-800/40 rounded-lg border border-slate-700/30 overflow-hidden">
-                            <div class="flex items-center justify-between p-4 border-b border-slate-700/30">
-                                <h4 class="text-sm font-semibold">Listado de Inmuebles</h4>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-xs text-slate-400">Filtrar:</span>
-                                    <span class="text-xs bg-brand-600/20 text-brand-300 px-2 py-0.5 rounded">Todos</span>
-                                    <span class="text-xs text-slate-500 px-2 py-0.5">Alquilados</span>
-                                    <span class="text-xs text-slate-500 px-2 py-0.5">Vacíos</span>
-                                </div>
-                            </div>
-                            <div class="hidden md:grid grid-cols-12 gap-4 px-4 py-2 text-xs text-slate-500 border-b border-slate-700/20 bg-slate-800/30">
-                                <span class="col-span-4">Propiedad</span>
-                                <span class="col-span-2">Tipo</span>
-                                <span class="col-span-2">Inquilino</span>
-                                <span class="col-span-2">Renta</span>
-                                <span class="col-span-2">Estado</span>
-                            </div>
-                            <!-- Row 1 -->
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-4 py-3 border-b border-slate-700/10 hover:bg-slate-800/30 transition-colors">
-                                <div class="md:col-span-4 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-brand-600/20 flex items-center justify-center flex-shrink-0"><i data-lucide="building-2" class="w-4 h-4 text-brand-400"></i></div>
-                                    <div>
-                                        <p class="text-sm font-medium">C/ Gran Vía 42, 3ºA</p>
-                                        <p class="text-xs text-slate-500">Madrid — 120m²</p>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Piso</div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">María G.</div>
-                                <div class="md:col-span-2 flex items-center text-sm font-medium text-mint-400">$1.200/mes</div>
-                                <div class="md:col-span-2 flex items-center">
-                                    <span class="text-xs px-2 py-0.5 rounded-full bg-mint-500/20 text-mint-400">Alquilado</span>
-                                </div>
-                            </div>
-                            <!-- Row 2 -->
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-4 py-3 border-b border-slate-700/10 hover:bg-slate-800/30 transition-colors">
-                                <div class="md:col-span-4 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-brand-600/20 flex items-center justify-center flex-shrink-0"><i data-lucide="home" class="w-4 h-4 text-brand-400"></i></div>
-                                    <div>
-                                        <p class="text-sm font-medium">Av. Diagonal 120, Bajo</p>
-                                        <p class="text-xs text-slate-500">Barcelona — Local 85m²</p>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Local</div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Café Premium</div>
-                                <div class="md:col-span-2 flex items-center text-sm font-medium text-mint-400">$1.850/mes</div>
-                                <div class="md:col-span-2 flex items-center">
-                                    <span class="text-xs px-2 py-0.5 rounded-full bg-mint-500/20 text-mint-400">Alquilado</span>
-                                </div>
-                            </div>
-                            <!-- Row 3 -->
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-4 py-3 border-b border-slate-700/10 hover:bg-slate-800/30 transition-colors">
-                                <div class="md:col-span-4 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-brand-600/20 flex items-center justify-center flex-shrink-0"><i data-lucide="building" class="w-4 h-4 text-brand-400"></i></div>
-                                    <div>
-                                        <p class="text-sm font-medium">Pza. Mayor 8, 1ºB</p>
-                                        <p class="text-xs text-slate-500">Sevilla — 95m²</p>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Piso</div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-500">—</div>
-                                <div class="md:col-span-2 flex items-center text-sm font-medium text-slate-500">—</div>
-                                <div class="md:col-span-2 flex items-center">
-                                    <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">Vacío</span>
-                                </div>
-                            </div>
-                            <!-- Row 4 -->
-                            <div class="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 px-4 py-3 hover:bg-slate-800/30 transition-colors">
-                                <div class="md:col-span-4 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-brand-600/20 flex items-center justify-center flex-shrink-0"><i data-lucide="building-2" class="w-4 h-4 text-brand-400"></i></div>
-                                    <div>
-                                        <p class="text-sm font-medium">C/ Alcalá 156, 5ºC</p>
-                                        <p class="text-xs text-slate-500">Madrid — 78m²</p>
-                                    </div>
-                                </div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Piso</div>
-                                <div class="md:col-span-2 flex items-center text-sm text-slate-400">Carlos R.</div>
-                                <div class="md:col-span-2 flex items-center text-sm font-medium text-mint-400">$950/mes</div>
-                                <div class="md:col-span-2 flex items-center">
-                                    <span class="text-xs px-2 py-0.5 rounded-full bg-mint-500/20 text-mint-400">Alquilado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mockup 2: Finanzas -->
-            <div class="mb-20" data-aos="fade-up">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-lg bg-mint-600/20 flex items-center justify-center">
-                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-mint-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold">Panel de Ingresos & Gastos</h3>
-                </div>
-                <div class="mockup-window glow-mint">
-                    <div class="mockup-titlebar">
-                        <div class="mockup-dot dot-red"></div>
-                        <div class="mockup-dot dot-yellow"></div>
-                        <div class="mockup-dot dot-green"></div>
-                        <div class="flex-1 flex items-center justify-between ml-4">
-                            <div class="flex items-center gap-4">
-                                <span class="text-xs text-slate-500 px-3 py-1">Dashboard</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Inmuebles</span>
-                                <span class="text-xs font-medium text-slate-300 px-3 py-1 bg-slate-800 rounded-md">Finanzas</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Incidencias</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-slate-800 rounded px-2 py-1 text-slate-300">Ene 2025 — Jun 2025</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-slate-900/80">
-                        <!-- Finance stats -->
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-mint-500/20">
-                                <span class="text-xs text-slate-400">Ingresos Totales</span>
-                                <p class="text-2xl font-bold text-mint-400 mt-1">$148.8k</p>
-                                <p class="text-xs text-mint-400/70 mt-1">↑ 12.3% semestral</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-rose-500/20">
-                                <span class="text-xs text-slate-400">Gastos Totales</span>
-                                <p class="text-2xl font-bold text-rose-400 mt-1">$42.3k</p>
-                                <p class="text-xs text-rose-400/70 mt-1">↓ 3.1% vs anterior</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-brand-500/20">
-                                <span class="text-xs text-slate-400">Beneficio Neto</span>
-                                <p class="text-2xl font-bold text-brand-400 mt-1">$106.5k</p>
-                                <p class="text-xs text-brand-400/70 mt-1">↑ 18.7% semestral</p>
-                            </div>
-                            <div class="bg-slate-800/60 rounded-lg p-4 border border-purple-500/20">
-                                <span class="text-xs text-slate-400">ROI Promedio</span>
-                                <p class="text-2xl font-bold text-purple-400 mt-1">7.2%</p>
-                                <p class="text-xs text-purple-400/70 mt-1">↑ 0.8% vs anterior</p>
-                            </div>
-                        </div>
-
-                        <!-- Chart area -->
-                        <div class="grid lg:grid-cols-3 gap-6">
-                            <!-- Main chart -->
-                            <div class="lg:col-span-2 bg-slate-800/40 rounded-lg border border-slate-700/30 p-4">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h4 class="text-sm font-semibold">Evolución Mensual</h4>
-                                    <div class="flex gap-4">
-                                        <span class="flex items-center gap-1.5 text-xs text-slate-400"><span class="w-2 h-2 rounded bg-mint-500"></span> Ingresos</span>
-                                        <span class="flex items-center gap-1.5 text-xs text-slate-400"><span class="w-2 h-2 rounded bg-rose-500"></span> Gastos</span>
-                                    </div>
-                                </div>
-                                <!-- Bar chart -->
-                                <div class="relative h-48 flex items-end gap-3">
-                                    <!-- Y axis labels -->
-                                    <div class="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-between text-xs text-slate-600">
-                                        <span>$30k</span>
-                                        <span>$20k</span>
-                                        <span>$10k</span>
-                                        <span>$0</span>
-                                    </div>
-                                    <div class="ml-12 flex-1 flex items-end gap-2 h-full">
-                                        <!-- Each month: two bars -->
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:60%; animation-delay:0.1s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:25%; animation-delay:0.15s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">Ene</span>
-                                        </div>
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:65%; animation-delay:0.2s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:28%; animation-delay:0.25s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">Feb</span>
-                                        </div>
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:62%; animation-delay:0.3s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:30%; animation-delay:0.35s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">Mar</span>
-                                        </div>
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:75%; animation-delay:0.4s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:32%; animation-delay:0.45s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">Abr</span>
-                                        </div>
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:72%; animation-delay:0.5s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:29%; animation-delay:0.55s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">May</span>
-                                        </div>
-                                        <div class="flex-1 flex flex-col items-center gap-0">
-                                            <div class="w-full flex gap-0.5 items-end flex-1">
-                                                <div class="flex-1 bg-mint-500/80 rounded-t chart-bar" style="height:90%; animation-delay:0.6s"></div>
-                                                <div class="flex-1 bg-rose-500/60 rounded-t chart-bar" style="height:35%; animation-delay:0.65s"></div>
-                                            </div>
-                                            <span class="text-xs text-slate-500 mt-1">Jun</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Donut chart / breakdown -->
-                            <div class="bg-slate-800/40 rounded-lg border border-slate-700/30 p-4">
-                                <h4 class="text-sm font-semibold mb-4">Desglose de Gastos</h4>
-                                <!-- Donut representation -->
-                                <div class="flex justify-center mb-4">
-                                    <div class="relative w-32 h-32">
-                                        <svg viewBox="0 0 36 36" class="w-full h-full transform -rotate-90">
-                                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#334155" stroke-width="3"></circle>
-                                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="35 65" stroke-dashoffset="0"></circle>
-                                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="25 75" stroke-dashoffset="-35"></circle>
-                                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="20 80" stroke-dashoffset="-60"></circle>
-                                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="20 80" stroke-dashoffset="-80"></circle>
-                                        </svg>
-                                        <div class="absolute inset-0 flex items-center justify-center">
-                                            <div class="text-center">
-                                                <p class="text-lg font-bold">$42.3k</p>
-                                                <p class="text-xs text-slate-500">Total</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between text-xs">
-                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded bg-brand-500"></span><span class="text-slate-300">Mantenimiento</span></span>
-                                        <span class="text-slate-400">$14.8k</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded bg-mint-500"></span><span class="text-slate-300">Seguros</span></span>
-                                        <span class="text-slate-400">$10.6k</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded bg-amber-500"></span><span class="text-slate-300">Impuestos</span></span>
-                                        <span class="text-slate-400">$8.5k</span>
-                                    </div>
-                                    <div class="flex items-center justify-between text-xs">
-                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded bg-rose-500"></span><span class="text-slate-300">Reparaciones</span></span>
-                                        <span class="text-slate-400">$8.4k</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mockup 3: Incidencias -->
-            <div data-aos="fade-up">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-lg bg-amber-600/20 flex items-center justify-center">
-                        <i data-lucide="wrench" class="w-5 h-5 text-amber-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold">Sistema de Incidencias</h3>
-                </div>
-                <div class="mockup-window" style="box-shadow: 0 0 40px rgba(245, 158, 11, 0.15);">
-                    <div class="mockup-titlebar">
-                        <div class="mockup-dot dot-red"></div>
-                        <div class="mockup-dot dot-yellow"></div>
-                        <div class="mockup-dot dot-green"></div>
-                        <div class="flex-1 flex items-center justify-between ml-4">
-                            <div class="flex items-center gap-4">
-                                <span class="text-xs text-slate-500 px-3 py-1">Dashboard</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Inmuebles</span>
-                                <span class="text-xs text-slate-500 px-3 py-1">Finanzas</span>
-                                <span class="text-xs font-medium text-slate-300 px-3 py-1 bg-slate-800 rounded-md">Incidencias</span>
-                            </div>
-                            <button class="flex items-center gap-1.5 bg-brand-600 rounded-md px-3 py-1 text-xs text-white font-medium hover:bg-brand-500 transition-colors">
-                                <i data-lucide="plus" class="w-3 h-3"></i> Nueva
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6 bg-slate-900/80">
-                        <!-- Incidence status pills -->
-                        <div class="flex flex-wrap gap-3 mb-6">
-                            <span class="text-xs px-3 py-1.5 rounded-full bg-slate-800 text-white font-medium">Todas (12)</span>
-                            <span class="text-xs px-3 py-1.5 rounded-full bg-amber-500/15 text-amber-400">Abiertas (3)</span>
-                            <span class="text-xs px-3 py-1.5 rounded-full bg-brand-500/15 text-brand-400">En progreso (2)</span>
-                            <span class="text-xs px-3 py-1.5 rounded-full bg-mint-500/15 text-mint-400">Resueltas (7)</span>
-                        </div>
-
-                        <!-- Incidence cards -->
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Card 1 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-amber-500/20 p-4 hover:border-amber-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-open font-medium">Abierta</span>
-                                    <span class="text-xs text-rose-400 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Alta</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Fuga de agua en baño</h5>
-                                <p class="text-xs text-slate-400 mb-3">C/ Gran Vía 42, 3ºA — Reportado por María G.</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Hace 2h</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-brand-600/40 flex items-center justify-center text-xs">F</div>
-                                        <span class="text-xs text-slate-400">Fontanería Martínez</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 2 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-brand-500/20 p-4 hover:border-brand-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-progress font-medium">En progreso</span>
-                                    <span class="text-xs text-amber-400 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Media</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Aire acondicionado parado</h5>
-                                <p class="text-xs text-slate-400 mb-3">Av. Diagonal 120, Bajo — Reportado por Café Premium</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Hace 1 día</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-mint-600/40 flex items-center justify-center text-xs">C</div>
-                                        <span class="text-xs text-slate-400">ClimaServ SL</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 3 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-mint-500/20 p-4 hover:border-mint-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-resolved font-medium">Resuelta</span>
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Baja</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Puerta portal no cierra</h5>
-                                <p class="text-xs text-slate-400 mb-3">Pza. Mayor 8, 1ºB — Reportado por Carlos R.</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-mint-400/60 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Cerrado hace 3h</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-amber-600/40 flex items-center justify-center text-xs">E</div>
-                                        <span class="text-xs text-slate-400">ElectroPuertas</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 4 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-amber-500/20 p-4 hover:border-amber-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-open font-medium">Abierta</span>
-                                    <span class="text-xs text-amber-400 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Media</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Ventana rota en salón</h5>
-                                <p class="text-xs text-slate-400 mb-3">C/ Alcalá 156, 5ºC — Reportado por Carlos R.</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Hace 5h</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-brand-600/40 flex items-center justify-center text-xs">V</div>
-                                        <span class="text-xs text-slate-400">Sin asignar</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 5 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-brand-500/20 p-4 hover:border-brand-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-progress font-medium">En progreso</span>
-                                    <span class="text-xs text-rose-400 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Alta</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Caldera no enciende</h5>
-                                <p class="text-xs text-slate-400 mb-3">C/ Gran Vía 42, Bajo — Comunidad</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Hace 8h</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-orange-600/40 flex items-center justify-center text-xs">G</div>
-                                        <span class="text-xs text-slate-400">GasPro SL</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 6 -->
-                            <div class="bg-slate-800/60 rounded-lg border border-mint-500/20 p-4 hover:border-mint-500/40 transition-colors">
-                                <div class="flex items-start justify-between mb-3">
-                                    <span class="text-xs px-2 py-0.5 rounded-full badge-resolved font-medium">Resuelta</span>
-                                    <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3"></i> Baja</span>
-                                </div>
-                                <h5 class="text-sm font-semibold mb-1">Bombilla fundida escalera</h5>
-                                <p class="text-xs text-slate-400 mb-3">C/ Alcalá 156 — Zona común</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-mint-400/60 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Cerrado hace 1 día</span>
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full bg-yellow-600/40 flex items-center justify-center text-xs">M</div>
-                                        <span class="text-xs text-slate-400">Mantenimiento propio</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== STATS ========== -->
-    <section class="relative py-20 bg-brand-950">
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/50 to-transparent"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center" data-aos="fade-up" data-aos-delay="0">
-                    <p class="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-brand-400 to-brand-300 bg-clip-text text-transparent counter-value">+500</p>
-                    <p class="text-sm text-slate-400 mt-2">Gestores activos</p>
-                </div>
-                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
-                    <p class="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-mint-400 to-mint-300 bg-clip-text text-transparent counter-value">12k+</p>
-                    <p class="text-sm text-slate-400 mt-2">Inmuebles gestionados</p>
-                </div>
-                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
-                    <p class="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-amber-400 to-amber-300 bg-clip-text text-transparent counter-value">99.9%</p>
-                    <p class="text-sm text-slate-400 mt-2">Uptime garantizado</p>
-                </div>
-                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
-                    <p class="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent counter-value">4.9</p>
-                    <p class="text-sm text-slate-400 mt-2">Valoración media</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== PRICING ========== -->
-    <section id="pricing" class="relative py-24 lg:py-32 bg-gradient-to-b from-brand-950 to-brand-900/80">
-        <div class="absolute inset-0 grid-pattern opacity-30"></div>
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/50 to-transparent"></div>
-        
-        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section header -->
-            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-brand-600/10 text-brand-400 text-sm font-medium mb-4">Precios</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                    Un plan simple,
-                    <span class="bg-gradient-to-r from-brand-400 to-mint-400 bg-clip-text text-transparent">sin sorpresas</span>
-                </h2>
-                <p class="text-lg text-slate-400">Elige la frecuencia que mejor se adapte a ti. Cancela cuando quieras.</p>
-            </div>
-
-            <!-- Pricing cards -->
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Monthly -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="0">
-                    <div class="glass-card rounded-2xl p-8 h-full flex flex-col">
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-slate-300 mb-2">Mensual</h3>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-5xl font-extrabold">€25</span>
-                                <span class="text-slate-400">/mes</span>
-                            </div>
-                            <p class="text-sm text-slate-500 mt-2">Facturación mensual, sin compromiso</p>
-                        </div>
-
-                        <ul class="space-y-3 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Inmuebles ilimitados
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Gestión completa de ingresos y gastos
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Sistema de incidencias ilimitado
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Reportes y exportaciones
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Soporte por email
-                            </li>
-                        </ul>
-
-                        <a href="#" class="block text-center px-6 py-3.5 border border-brand-600/50 text-brand-400 hover:bg-brand-600/10 font-semibold rounded-xl transition-all">
-                            Empezar con Mensual
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Annual — Popular -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative glass-card rounded-2xl p-8 h-full flex flex-col ring-2 ring-brand-500/50">
-                        <!-- Popular badge -->
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 shimmer">
-                            <span class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-brand-600 to-mint-500 rounded-full text-xs font-bold text-white shadow-lg shadow-brand-600/25">
-                                <i data-lucide="zap" class="w-3 h-3"></i>
-                                MÁS POPULAR — Ahorra €20 al año
-                            </span>
-                        </div>
-
-                        <div class="mb-8 mt-2">
-                            <h3 class="text-lg font-semibold text-slate-300 mb-2">Anual</h3>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-5xl font-extrabold">€250</span>
-                                <span class="text-slate-400">/año</span>
-                            </div>
-                            <p class="text-sm text-slate-500 mt-2">
-                                <span class="line-through">€300</span> → €250. Solo <strong class="text-mint-400">€20,83/mes</strong>
-                            </p>
-                        </div>
-
-                        <ul class="space-y-3 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Todo del plan mensual
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                <strong>Ahorro de €20 al año</strong>
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Soporte prioritario
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Reportes avanzados y analytics
-                            </li>
-                            <li class="flex items-center gap-3 text-sm text-slate-300">
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-mint-400 flex-shrink-0"></i>
-                                Actualizaciones prioritarias
-                            </li>
-                        </ul>
-
-                        <a href="#" class="block text-center px-6 py-3.5 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-semibold rounded-xl transition-all shadow-lg shadow-brand-600/25 hover:shadow-xl hover:shadow-brand-600/30">
-                            Empezar con Anual
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Guarantee -->
-            <div class="text-center mt-12" data-aos="fade-up">
-                <div class="inline-flex items-center gap-2 text-sm text-slate-400">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-mint-400"></i>
-                    <span>Garantía de devolución de 30 días — Sin preguntas</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== TESTIMONIALS ========== -->
-    <section id="testimonials" class="relative py-24 lg:py-32 bg-brand-950">
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/50 to-transparent"></div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section header -->
-            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-                <span class="inline-block px-4 py-1.5 rounded-full bg-mint-500/10 text-mint-400 text-sm font-medium mb-4">Opiniones</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                    Lo que dicen nuestros
-                    <span class="bg-gradient-to-r from-mint-400 to-brand-400 bg-clip-text text-transparent">usuarios</span>
-                </h2>
-            </div>
-
-            <!-- Testimonials grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Testimonial 1 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="0">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "Antes llevaba todo en Excel. Hojas y más hojas que nadie entendía. Con Inmudata tengo <strong class="text-white">visibilidad total</strong> de mis 23 propiedades en un solo dashboard. El control de ingresos y gastos me ahorró horas cada semana."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center font-bold text-sm">MR</div>
-                            <div>
-                                <p class="text-sm font-semibold">Miguel Rodríguez</p>
-                                <p class="text-xs text-slate-500">Propietario — 23 inmuebles, Madrid</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="100">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "El sistema de incidencias es un game changer. Antes los inquilinos me llamaban a todas horas y perdía mensajes por WhatsApp. Ahora <strong class="text-white">cada incidencia tiene su seguimiento</strong>, se asigna al proveedor y se resuelve. Brutal."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center font-bold text-sm">CL</div>
-                            <div>
-                                <p class="text-sm font-semibold">Carolina López</p>
-                                <p class="text-xs text-slate-500">Administradora de fincas — Barcelona</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="200">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "Tenía 8 pisos y no sabía si ganaba o perdía dinero con cada uno. Las gráficas de Inmudata me abrieron los ojos: <strong class="text-white">vendí 2 propiedades con baja rentabilidad</strong> y reinvertí mejor. ROI de la suscripción: 100x."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center font-bold text-sm">JF</div>
-                            <div>
-                                <p class="text-sm font-semibold">Javier Fernández</p>
-                                <p class="text-xs text-slate-500">Inversor inmobiliario — Valencia</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 4 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="0">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "La curva de aprendizaje es prácticamente cero. Empecé a usarlo un lunes y el miércoles ya tenía <strong class="text-white">todas mis propiedades cargadas</strong>. La interfaz es intuitiva y bonita, mis clientes también quedan impresionados."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center font-bold text-sm">AM</div>
-                            <div>
-                                <p class="text-sm font-semibold">Ana Martínez</p>
-                                <p class="text-xs text-slate-500">Agente inmobiliaria — Sevilla</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 5 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="100">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "Migramos desde un software de escritorio carísimo que costaba 5 veces más. Inmudata hace <strong class="text-white">exactamente lo que necesitamos</strong> sin complicaciones. Y el soporte responde en minutos, no en días."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 flex items-center justify-center font-bold text-sm">PG</div>
-                            <div>
-                                <p class="text-sm font-semibold">Pablo García</p>
-                                <p class="text-xs text-slate-500">Director — Inmobiliaria García, Bilbao</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 6 -->
-                <div class="card-lift" data-aos="fade-up" data-aos-delay="200">
-                    <div class="glass-card rounded-2xl p-6 h-full flex flex-col">
-                        <div class="flex items-center gap-1 text-yellow-400 mb-4">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                        </div>
-                        <p class="text-slate-300 text-sm leading-relaxed flex-1 mb-6">
-                            "Por fin puedo ver la rentabilidad real de cada piso en un clic. El reporte financiero anual me <strong class="text-white">ahorró 2 días de trabajo</strong> con el contador. Vale cada céntimo."
-                        </p>
-                        <div class="flex items-center gap-3 pt-4 border-t border-white/10">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center font-bold text-sm">LS</div>
-                            <div>
-                                <p class="text-sm font-semibold">Laura Sánchez</p>
-                                <p class="text-xs text-slate-500">Propietaria — 15 inmuebles, Málaga</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========== CTA FINAL ========== -->
-    <section class="relative py-24 lg:py-32 overflow-hidden">
-        <!-- Background effects -->
-        <div class="absolute inset-0 hero-gradient opacity-50"></div>
-        <div class="absolute inset-0 grid-pattern opacity-20"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-500/20 rounded-full blur-3xl"></div>
-        
-        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-mint-400 mb-8">
-                <i data-lucide="rocket" class="w-4 h-4"></i>
-                Empieza hoy, sin tarjeta de crédito
-            </div>
-
-            <h2 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">
-                Deja de gestionar con
-                <br class="hidden sm:block">
-                <span class="bg-gradient-to-r from-brand-400 via-mint-400 to-brand-400 bg-clip-text text-transparent">hojas de cálculo</span>
-            </h2>
-
-            <p class="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-                Únete a más de 500 gestores que ya controlan su patrimonio inmobiliario con Inmudata. Configura tu cuenta en menos de 5 minutos.
-            </p>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" class="group px-10 py-4 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white text-lg font-semibold rounded-xl transition-all hover:shadow-2xl hover:shadow-brand-600/25 flex items-center justify-center gap-2">
-                    Crear mi cuenta gratis
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                <a href="#" class="px-10 py-4 glass hover:bg-white/10 text-white text-lg font-semibold rounded-xl transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="calendar" class="w-5 h-5"></i>
-                    Reservar demo
-                </a>
-            </div>
-
-            <p class="text-sm text-slate-500 mt-6 flex items-center justify-center gap-4">
-                <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-mint-400"></i> 14 días gratis</span>
-                <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-mint-400"></i> Sin tarjeta</span>
-                <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-mint-400"></i> Cancela cuando quieras</span>
-            </p>
-        </div>
-    </section>
-
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="relative bg-brand-950 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-                <!-- Brand -->
-                <div class="col-span-2 md:col-span-1">
-                    <a href="#" class="flex items-center gap-2 mb-4">
-                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-500 to-mint-500 flex items-center justify-center font-bold text-white text-lg">I</div>
-                        <span class="text-xl font-bold text-white">Inmudata</span>
-                    </a>
-                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
-                        La plataforma definitiva para la gestión inmobiliaria inteligente.
-                    </p>
-                    <div class="flex items-center gap-3">
-                        <a href="#" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-colors" aria-label="Twitter">
-                            <i data-lucide="twitter" class="w-4 h-4"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn">
-                            <i data-lucide="linkedin" class="w-4 h-4"></i>
-                        </a>
-                        <a href="#" class="w-9 h-9 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-colors" aria-label="GitHub">
-                            <i data-lucide="github" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Producto -->
-                <div>
-                    <h4 class="text-sm font-semibold text-white mb-4">Producto</h4>
-                    <ul class="space-y-2.5">
-                        <li><a href="#features" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Funcionalidades</a></li>
-                        <li><a href="#pricing" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Precios</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Integraciones</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Changelog</a></li>
-                    </ul>
-                </div>
-
-                <!-- Compañía -->
-                <div>
-                    <h4 class="text-sm font-semibold text-white mb-4">Compañía</h4>
-                    <ul class="space-y-2.5">
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Sobre nosotros</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Carreras</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Contacto</a></li>
-                    </ul>
-                </div>
-
-                <!-- Legal -->
-                <div>
-                    <h4 class="text-sm font-semibold text-white mb-4">Legal</h4>
-                    <ul class="space-y-2.5">
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Privacidad</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Términos</a></li>
-                        <li><a href="#" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">Cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom -->
-            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-xs text-slate-600">© 2025 Inmudata. Todos los derechos reservados.</p>
-                <div class="flex items-center gap-2 text-xs text-slate-600">
-                    <span class="w-2 h-2 bg-mint-500 rounded-full animate-pulse"></span>
-                    Todos los sistemas operativos
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- ========== SCRIPTS ========== -->
-    <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out',
-            once: true,
-            offset: 80,
-        });
-
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > 50) {
-                navbar.classList.add('nav-blur', 'bg-brand-950/80', 'border-b', 'border-white/5');
-            } else {
-                navbar.classList.remove('nav-blur', 'bg-brand-950/80', 'border-b', 'border-white/5');
-            }
-
-            lastScroll = currentScroll;
-        });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu on link click
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Floating particles
-        const particlesContainer = document.getElementById('particles');
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            const size = Math.random() * 4 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.background = Math.random() > 0.5 ? 'rgba(59, 130, 246, 0.3)' : 'rgba(16, 185, 129, 0.2)';
-            particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particlesContainer.appendChild(particle);
-
-            // Remove after animation
-            setTimeout(() => {
-                particle.remove();
-            }, 25000);
-        }
-
-        // Create initial particles
-        for (let i = 0; i < 15; i++) {
-            createParticle();
-        }
-        // Continue creating particles
-        setInterval(createParticle, 3000);
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    });
-                }
-            });
-        });
-    </script>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="#" class="logo">
+      <img src="LOGO-INMUDATA.png" alt="Inmudata">
+      <span>Inmudata</span>
+    </a>
+    <div class="links">
+      <a href="#features">Funcionalidades</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="inner">
+    <div>
+      <h1>Gestión inmobiliaria <span>inteligente</span> desde un solo lugar</h1>
+      <p>Controla inmuebles, contratos, transacciones y finanzas con una plataforma diseñada para profesionales inmobiliarios.</p>
+      <div class="ctas">
+        <a href="#contacto" class="btn btn-primary">Solicitar Demo →</a>
+        <a href="#features" class="btn btn-outline">Ver Funcionalidades</a>
+      </div>
+    </div>
+    <div class="mockup">
+      <img src="DASHBOARD.png" alt="Dashboard Inmudata">
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="inner">
+    <div class="section-title">
+      <h2>Todo lo que necesitas para gestionar tu negocio inmobiliario</h2>
+      <p>Una plataforma completa que une todas las áreas de tu gestión en un solo flujo de trabajo.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">🏠</div>
+        <h3>Gestión de Inmuebles</h3>
+        <p>Control total de propiedades: estado, documentación, disponibilidad y más.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📋</div>
+        <h3>Contratos Centralizados</h3>
+        <p>Administra contratos de arrendamiento, compra-venta y más con seguimiento automático.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💳</div>
+        <h3>Transacciones</h3>
+        <p>Registro detallado de pagos, cobros y movimientos financieros al día.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>Analítica Financiera</h3>
+        <p>Reportes avanzados e indicadores clave para tomar decisiones con datos reales.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔔</div>
+        <h3>Alertas y Vencimientos</h3>
+        <p>Notificaciones automáticas de contratos por vencer, pagos pendientes e incidencias.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Rendimiento y Escalabilidad</h3>
+        <p>Plataforma rápida y escalable, preparada para crecer con tu negocio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="showcase" id="dashboard">
+  <div class="inner">
+    <div class="section-title">
+      <h2>Tu Dashboard, tu comando central</h2>
+      <p>Visualiza de un vistazo todo lo importante: vencimientos, incidencias, disponibilidad y métricas clave.</p>
+    </div>
+    <div style="max-width:960px;margin:auto;border-radius:16px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.15);border:1px solid #e2e8f0">
+      <img src="DASHBOARD.png" alt="Dashboard Inmudata" style="width:100%">
+    </div>
+  </div>
+</section>
+
+<section class="showcase" id="modulos" style="background:var(--gray-light)">
+  <div class="inner">
+    <div class="section-title">
+      <h2>Módulos diseñados para cada necesidad</h2>
+      <p>Cada área de tu negocio tiene su espacio dedicado con herramientas específicas.</p>
+    </div>
+
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h3>Gestión de Inmuebles</h3>
+        <p>Organiza todo tu portfolio inmobiliario con información detallada y siempre actualizada.</p>
+        <ul>
+          <li>Fichas completas de cada propiedad</li>
+          <li>Estado y disponibilidad en tiempo real</li>
+          <li>Documentación asociada centralizada</li>
+          <li>Búsqueda y filtros avanzados</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="PROPERTIES.png" alt="Gestión de Inmuebles">
+      </div>
+    </div>
+
+    <div class="showcase-row reverse">
+      <div class="showcase-text">
+        <h3>Gestión de Contratos</h3>
+        <p>Controla todos tus contratos con alertas automáticas y seguimiento de estado.</p>
+        <ul>
+          <li>Contratos de arrendamiento y compra-venta</li>
+          <li>Alertas de vencimiento automáticas</li>
+          <li>Historial completo de cambios</li>
+          <li>Generación de documentos</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="CONTRACTS.png" alt="Gestión de Contratos">
+      </div>
+    </div>
+
+    <div class="showcase-row">
+      <div class="showcase-text">
+        <h3>Transacciones Financieras</h3>
+        <p>Registro transparente y detallado de todos los movimientos económicos.</p>
+        <ul>
+          <li>Pagos de alquiler y servicios</li>
+          <li>Seguimiento de cobros y pagos</li>
+          <li>Registro automático de movimientos</li>
+          <li>Historial completo por propiedad</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="TRANSACTIONS.png" alt="Transacciones">
+      </div>
+    </div>
+
+    <div class="showcase-row reverse">
+      <div class="showcase-text">
+        <h3>Analítica Financiera PRO</h3>
+        <p>Datos transformados en decisiones. Métricas avanzadas para optimizar tu rentabilidad.</p>
+        <ul>
+          <li>Reportes de ingresos y gastos</li>
+          <li>Gráficos de tendencia y comparativas</li>
+          <li>Indicadores de rentabilidad</li>
+          <li>Exportación de informes</li>
+        </ul>
+      </div>
+      <div class="showcase-img">
+        <img src="FINANCIALS.png" alt="Analítica Financiera">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contacto">
+  <h2>¿Listo para transformar tu gestión inmobiliaria?</h2>
+  <p>Solicita una demo personalizada y descubre cómo Inmudata puede optimizar tu negocio.</p>
+  <a href="mailto:info@inmudata.com" class="btn btn-primary" style="background:#fff;color:var(--blue-dark)">Solicitar Demo →</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 Inmudata. Todos los derechos reservados.</p>
+</footer>
 
 </body>
 </html>
